@@ -34,6 +34,7 @@ class FileController
         $filePath = $storageServiceFolder . '/' . $storageServicePublicId;
         $storageDeliveryId = (int) request('storageDeliveryId');
         $model = $this->fileRecordSave(
+            fileName: $fileName,
             filePath: $filePath,
             storageDeliveryId: $storageDeliveryId,
         );
@@ -52,7 +53,7 @@ class FileController
         ]));
     }
 
-    private function fileRecordSave(string $filePath, int $storageDeliveryId): File {
+    private function fileRecordSave(string $fileName, string $filePath, int $storageDeliveryId): File {
         $model = new File;
         $model->fill([
             'file_byte' => request('fileBytes'),
@@ -60,8 +61,11 @@ class FileController
             'file_daho' => Cast::nowTimestamp(),
             'file_heig' => request('imageHeight'),
             'file_mity' => request('fileMimeType'),
+            'file_name' => $fileName,
             'file_path' => $filePath,
             'file_stde' => $storageDeliveryId,
+            'file_stse' => YiiEnum::STORAGE_SERVICE_CLOUDINARY->value,
+            'file_type' => YiiEnum::FILE_SHEET_TO_EXTRACT->value,
             'file_widt' => request('imageWidth'),
         ]);
         $model->save();

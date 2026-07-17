@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class File extends Model
 {
-    protected $table = 'extension.file';
+    protected $table = 'misc.file';
     protected $primaryKey = 'file_code';
     public $timestamps = false;
     protected $hidden = [];
@@ -20,8 +20,11 @@ class File extends Model
         'file_daho',
         'file_heig',
         'file_mity',
+        'file_name',
         'file_path',
         'file_stde',
+        'file_stse',
+        'file_type',
         'file_widt',
     ];
 }
