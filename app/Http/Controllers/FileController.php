@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Custom\Cast;
 use App\Custom\FileHelper;
 use App\Enums\YiiEnum;
+use App\Http\Resources\JsonFeedbackResource;
 use App\Http\Resources\JsonResponseResource;
 use App\Models\File;
 use App\Services\CloudinaryService;
@@ -71,5 +72,10 @@ class FileController
         ]);
         $model->save();
         return $model;
+    }
+
+    public function apiConfirm(File $model): JsonResponse {
+        $model->update(['file_conf' => true]);
+        return response()->json(new JsonFeedbackResource);
     }
 }
