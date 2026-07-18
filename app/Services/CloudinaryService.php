@@ -62,13 +62,14 @@ class CloudinaryService
         ], $params);
     }
 
-    public function getPresignData(string $folder, string $publicId, string $deliveryType = self::DELIVERY_PUBLIC): array {
+    public function getPresignData(string $folder, string $publicId, string $deliveryType, bool $isRaw): array {
+        $uploadUrl = config('filesystems.disks.cloudinary.upload_url');
         $signatureData = $this->getSignatureData($folder, $publicId, $deliveryType);
         return [
             'cloudinaryData' => array_merge([
                 'api_key' => Configuration::instance()->cloud->apiKey,
             ], $signatureData),
-            'uploadUrl' => config('filesystems.disks.cloudinary.upload_url'),
+            'uploadUrl' => $isRaw ? str_replace('/image/', '/raw/', $uploadUrl) : $uploadUrl,
         ];
     }
 

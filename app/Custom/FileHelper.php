@@ -8,18 +8,20 @@ class FileHelper
      * @return object{'current': string, 'new': string}
      */
     public static function resolveFileDotExt(string $value): object {
-        $previousDotExt = trim(mb_strtolower(pathinfo($value, PATHINFO_EXTENSION))); // extrai a extensão do nome
+        $previousDotExt = pathinfo($value, PATHINFO_EXTENSION)
+                |> mb_strtolower(...)
+                |> trim(...); // extrai a extensão do nome
         $newDotExt = '';
         if ($previousDotExt && mb_strlen($previousDotExt) < 8) {
             if ($previousDotExt === 'gz' && str_ends_with($value, '.tar.gz')) {
-                $newDotExt = '.tar.gz';
+                $newDotExt = 'tar.gz';
             } elseif ($previousDotExt === 'jpeg') {
-                $newDotExt = '.jpg';
+                $newDotExt = 'jpg';
             } else {
-                $newDotExt = '.' . $previousDotExt;
+                $newDotExt = $previousDotExt;
             }
         }
-        return literal(current: $previousDotExt, new: $newDotExt);
+        return literal(current: '.' . $previousDotExt, new: '.' . $newDotExt);
     }
 
     public static function resolveFileName(string $value, int $maxLength, string $hash, bool $stripExtension = false): string {
@@ -51,5 +53,17 @@ class FileHelper
      */
     public static function hex2Blob($value): string {
         return hex2bin(stream_get_contents($value));
+    }
+
+    public static function isValidImageMimeType(string $mimeType): bool {
+        return $mimeType === 'image/jpeg' || $mimeType === 'image/jpg' || $mimeType === 'image/png' || $mimeType === 'image/webp';
+    }
+
+    public static function isValidPdfMimeType(string $mimeType): bool {
+        return $mimeType === 'application/pdf';
+    }
+
+    public static function isRaw(string $mimeType): bool {
+        return !static::isValidImageMimeType($mimeType) && !static::isValidPdfMimeType($mimeType);
     }
 }

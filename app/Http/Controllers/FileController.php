@@ -22,14 +22,14 @@ class FileController
             'imageWidth' => 'int',
             'storageDeliveryId' => 'required|int',
         ]);
-
+        $isRaw = FileHelper::isRaw(request('fileMimeType'));
         $fileName = FileHelper::resolveUploadName(request('fileName'));
         $storageServiceFolder = request('cloudinaryFolder');
         $storageServicePublicId = FileHelper::resolveFileName(
             value: $fileName,
             maxLength: 100,
             hash: '-' . time(),
-            stripExtension: true, // Quando salva com a extensão da xabu no thumbnail, que passa a precisar de uma extensão adicional .jpg.jpg
+            stripExtension: !$isRaw, // Quando salva com a extensão da xabu no thumbnail, que passa a precisar de uma extensão adicional .jpg.jpg
         );
         $filePath = $storageServiceFolder . '/' . $storageServicePublicId;
         $storageDeliveryId = (int) request('storageDeliveryId');
@@ -48,6 +48,7 @@ class FileController
                 folder: $storageServiceFolder,
                 publicId: $storageServicePublicId,
                 deliveryType: $cloudinaryDeliveryType,
+                isRaw: $isRaw,
             ),
             'fileData' => $model,
         ]));
