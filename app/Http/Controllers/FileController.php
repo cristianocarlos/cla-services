@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Custom\Cast;
 use App\Custom\FileHelper;
 use App\Enums\YiiEnum;
-use App\Http\Resources\JsonFeedbackResource;
+use App\Http\Resources\FileResource;
 use App\Http\Resources\JsonResponseResource;
 use App\Models\File;
 use App\Services\CloudinaryService;
+use App\Services\SpreadsheetExtractService;
 use Illuminate\Http\JsonResponse;
 
 class FileController
@@ -51,7 +52,7 @@ class FileController
                 deliveryType: $cloudinaryDeliveryType,
                 isRaw: $isRaw,
             ),
-            'fileData' => $model,
+            'fileData' => new FileResource($model)->additional(['isRaw' => $isRaw]),
         ]));
     }
 
@@ -74,8 +75,13 @@ class FileController
         return $model;
     }
 
-    public function apiConfirm(File $model): JsonResponse {
+    public function apiExtract(File $model, CloudinaryService $cloudinaryService, SpreadsheetExtractService $spreadsheetExtractService): JsonResponse {
         $model->update(['file_conf' => true]);
-        return response()->json(new JsonFeedbackResource);
+        $downloadUrl = $cloudinaryService->resolveDownloadUrl(FileHelper::isRaw($model->file_mity));
+        $fileUrl = $downloadUrl . '/' . $model->file_path;
+        $rows = $model->file_mity === 'text/csv'
+            ? $spreadsheetExtractService->getCsvRows($fileUrl)
+            : $spreadsheetExtractService->getSheetRows($fileUrl);
+        return response()->json(new JsonResponseResource(['fileUrl' => $fileUrl, 'rows' => $rows]));
     }
 }

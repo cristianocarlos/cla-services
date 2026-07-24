@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['api.token'])->group(function () {
     Route::get('/authentication/token', [AuthenticationController::class, 'token']);
     //
-    Route::put('/file/confirm/{model}', [FileController::class, 'apiConfirm']);
+    Route::put('/file/extract/{model}', [FileController::class, 'apiExtract']);
     Route::post('/file/presign', [FileController::class, 'apiCloudinaryPresign']);
     //
     Route::get('/geo/address', [GeoController::class, 'address']);

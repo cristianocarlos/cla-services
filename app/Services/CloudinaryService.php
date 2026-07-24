@@ -63,13 +63,12 @@ class CloudinaryService
     }
 
     public function getPresignData(string $folder, string $publicId, string $deliveryType, bool $isRaw): array {
-        $uploadUrl = config('filesystems.disks.cloudinary.upload_url');
         $signatureData = $this->getSignatureData($folder, $publicId, $deliveryType);
         return [
             'cloudinaryData' => array_merge([
                 'api_key' => Configuration::instance()->cloud->apiKey,
             ], $signatureData),
-            'uploadUrl' => $isRaw ? str_replace('/image/', '/raw/', $uploadUrl) : $uploadUrl,
+            'uploadUrl' => $this->resolveUploadUrl($isRaw),
         ];
     }
 
@@ -142,5 +141,15 @@ class CloudinaryService
             'application/pdf' => 'pdf',
             default => 'unknown',
         };
+    }
+
+    public function resolveDownloadUrl(bool $isRaw): string {
+        $uploadUrl = config('filesystems.disks.cloudinary.download_url');
+        return $isRaw ? str_replace('/image/', '/raw/', $uploadUrl) : $uploadUrl;
+    }
+
+    public function resolveUploadUrl(bool $isRaw): string {
+        $uploadUrl = config('filesystems.disks.cloudinary.upload_url');
+        return $isRaw ? str_replace('/image/', '/raw/', $uploadUrl) : $uploadUrl;
     }
 }

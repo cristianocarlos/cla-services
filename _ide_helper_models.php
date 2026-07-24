@@ -59,9 +59,54 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @property int $file_code Sequential code
+ * @property string $file_name Name
+ * @property string|null $file_path Path
+ * @property int $file_byte Size (bytes)
+ * @property string $file_mity Mime type
+ * @property string $file_daho Date hour (creation, search pourposes)
+ * @property int|null $file_moid Id in the table of the module, e.g. dtse_code
+ * @property int|null $file_modu Module (FK) without constraint on porpouse
+ * @property int $file_type Type (type: file)
+ * @property int $file_stse Storage service (type: storageService)
+ * @property bool $file_tras Trashed, to be deleted on the storage service
+ * @property string|null $file_data Binary data
+ * @property string|null $sys_log JSON log: {
+ *         insert_date_hour: timestamp,
+ *         insert_who_id: number,
+ *         insert_who_name: string,
+ *         last_update_date_hour: timestamp,
+ *         last_update_who_id: number,
+ *         last_update_who_name: string
+ *       }
+ * @property string|null $file_tag_rows JSON tags
+ * @property int|null $file_heig File height (for image)
+ * @property int|null $file_widt File width (for image)
+ * @property bool $file_conf Confirmed (handleUploadSuccess)
+ * @property int $file_orde Order (galleries only)
+ * @property int $file_stde Storage delivery (type: storageDelivery)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|File query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereFileByte($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereFileCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereFileConf($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereFileDaho($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereFileData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereFileHeig($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereFileMity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereFileModu($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereFileMoid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereFileName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereFileOrde($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereFilePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereFileStde($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereFileStse($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereFileTagRows($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereFileTras($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereFileType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereFileWidt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|File whereSysLog($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
