@@ -12,7 +12,7 @@ use App\Services\CloudinaryService;
 use App\Services\SpreadsheetExtractService;
 use Illuminate\Http\JsonResponse;
 
-class FileController
+class SpreadsheetExtractController
 {
     public function apiCloudinaryPresign(CloudinaryService $cloudinaryService): JsonResponse {
         request()->validate([
@@ -75,7 +75,7 @@ class FileController
         return $model;
     }
 
-    public function apiExtract(File $model, CloudinaryService $cloudinaryService, SpreadsheetExtractService $spreadsheetExtractService): JsonResponse {
+    public function apiConfirm(File $model, CloudinaryService $cloudinaryService, SpreadsheetExtractService $spreadsheetExtractService): JsonResponse {
         $model->update(['file_conf' => true]);
         $downloadUrl = $cloudinaryService->resolveDownloadUrl(FileHelper::isRaw($model->file_mity));
         $fileUrl = $downloadUrl . '/' . $model->file_path;
