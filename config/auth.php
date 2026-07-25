@@ -3,7 +3,7 @@
 use App\Models\ApiToken;
 use App\Models\User;
 
-const API_TOKEN_PROVIDER_NAME = ApiToken::GUARD . '_users';
+defined('API_TOKEN_PROVIDER_NAME') || define('API_TOKEN_PROVIDER_NAME', ApiToken::GUARD . '_users');
 
 return [
 
