@@ -94,6 +94,10 @@
             "php-http/discovery": true
         }
     },
+    "post-install-cmd": [
+        "@php artisan config:clear",
+        "@php artisan cache:clear"
+    ],
     "minimum-stability": "stable",
     "prefer-stable": true
 }
