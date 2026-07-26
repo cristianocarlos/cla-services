@@ -7,6 +7,7 @@ use App\Models\ApiToken;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Context;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class ApiTokenMiddleware
@@ -17,6 +18,7 @@ class ApiTokenMiddleware
      * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response {
+        logger('eita', $request->headers->all());
         $token = $request->bearerToken();
         if (!$token) {
             return response()->json(new JsonFeedbackResource('Claritor Services api token required'), Response::HTTP_UNAUTHORIZED);

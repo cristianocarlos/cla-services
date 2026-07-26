@@ -18,6 +18,8 @@ Route::middleware(['api.token'])->group(function () {
     Route::get('/geo/country', [GeoController::class, 'country']);
 });
 
+Route::get('/geo/city2', [GeoController::class, 'city']);
+
 Route::middleware('auth:' . ApiToken::GUARD)->group(function () {
     Route::get('/dumb/stuff', [DumbController::class, 'stuff']);
 });
