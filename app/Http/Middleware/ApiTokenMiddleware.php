@@ -18,7 +18,6 @@ class ApiTokenMiddleware
      * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response {
-        logger('eita', $request->headers->all());
         $token = $request->bearerToken();
         if (!$token) {
             return response()->json(new JsonFeedbackResource('Claritor Services api token required'), Response::HTTP_UNAUTHORIZED);
