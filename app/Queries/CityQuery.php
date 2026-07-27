@@ -3,13 +3,13 @@
 namespace App\Queries;
 
 use App\DTOs\AddressDTO;
+use App\Enums\GeoEnum;
 use App\Enums\YiiEnum;
-use App\Models\Country;
 use Illuminate\Support\Facades\DB;
 
 class CityQuery extends Query
 {
-    public static string $colLabel = "CONCAT(city_name, ' (',  CASE WHEN city_coun = '" . Country::HOME . "' THEN city_stte_acro ELSE coun_name END, ')')";
+    public static string $colLabel = "CONCAT(city_name, ' (',  CASE WHEN city_coun = '" . GeoEnum::COUNTRY_HOME->value . "' THEN city_stte_acro ELSE coun_name END, ')')";
 
     /**
      * @return object{'latitude': float|null, 'longitude': float|null}|null
@@ -45,7 +45,7 @@ class CityQuery extends Query
         ?string $term,
         int $limit = 40,
         int $offset = 0,
-        string $countryId = Country::HOME,
+        string $countryId = GeoEnum::COUNTRY_HOME->value,
     ): array {
         // pt_br (filtros e nomes das cidades)
         $filters = [];

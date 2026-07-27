@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\BoolCharEnum;
+use App\Enums\GeoEnum;
 use App\Http\Resources\JsonResponseResource;
-use App\Models\Country;
 use App\Queries\CityQuery;
 use App\Queries\CountryQuery;
 use App\Rules\PtBrZipCodeRule;
@@ -33,7 +33,7 @@ class GeoController
             term: request()->query('term'),
             limit: request()->query('limit'),
             offset: request()->query('offset'),
-            countryId: request()->query('countryId') ?: Country::HOME,
+            countryId: request()->query('countryId') ?: GeoEnum::COUNTRY_HOME->value,
         )));
     }
 
